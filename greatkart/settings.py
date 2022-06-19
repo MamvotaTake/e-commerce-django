@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool) # True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 # 'greatkart-course-env.eba-pepcery4.us-west-2.elasticbeanstalk.com',
 
 # Application definition
@@ -152,9 +152,9 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR /'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    'greatkart/static',
+    os.path.join(BASE_DIR, 'greatkart/static'),
 ]
 
 # AWS S3 Static Files Configuration
@@ -169,9 +169,9 @@ STATICFILES_DIRS = [
 # AWS_DEFAULT_ACL = 'public-read'
 # AWS_LOCATION = 'static'
 
-STATICFILES_DIRS = [
-    'greatkart/static',
-]
+# STATICFILES_DIRS = [
+#     'greatkart/static',
+# ]
 # STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
