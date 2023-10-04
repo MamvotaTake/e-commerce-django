@@ -114,7 +114,7 @@
 							<input type="radio" name="rating" id="rating2" value="1" required /><label for="rating2" title="1"></label>
 							<input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
 						</div>
-<br>
+						<br>
 						Review Title:
 						<input type="text" class="form-control" name="subject">
 						<br>
@@ -132,21 +132,21 @@
 						{% endif %} -->
 
 						{% if user.is_authenticated %}
-								<input type="submit" value="Submit Review" class="btn btn-primary">
+						<input type="submit" value="Submit Review" class="btn btn-primary">
 						{% else %}
 						<p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
 						{% endif %}
 						<div class="alert alert-danger" role="alert" style="margin-top:10px;">
-  2-Factor Review Submission is disabled for demo purpose.
-</div>
+							2-Factor Review Submission is disabled for demo purpose.
+						</div>
 
 					</div>
-{% include 'includes/alerts.html' %}
+					{% include 'includes/alerts.html' %}
 				</form>
-<br>
-<header class="section-heading">
-	<h3>Customer Reviews </h3>
-	<div class="rating-star">
+				<br>
+				<header class="section-heading">
+					<h3>Customer Reviews </h3>
+					<div class="rating-star">
 		<span>
 			<i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
 			<i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
@@ -155,11 +155,11 @@
 			<i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
 	<span>{{single_product.countReview}} reviews</span>
 			</span>
-	</div>
+					</div>
 
-</header>
+				</header>
 
-{% for review in reviews %}
+				{% for review in reviews %}
 				<article class="box mb-3">
 					<div class="icontext w-100">
 
@@ -184,7 +184,7 @@
 						</p>
 					</div>
 				</article>
-{% endfor %}
+				{% endfor %}
 
 
 			</div> <!-- col.// -->

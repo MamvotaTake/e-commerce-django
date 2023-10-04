@@ -7,15 +7,17 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.http import HttpResponse
 
+
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
 
+
 def add_cart(request, product_id):
     current_user = request.user
-    product = Product.objects.get(id=product_id) #get the product
+    product = Product.objects.get(id=product_id)  # get the product
     # If the user is authenticated
     if current_user.is_authenticated:
         product_variation = []
@@ -25,11 +27,11 @@ def add_cart(request, product_id):
                 value = request.POST[key]
 
                 try:
-                    variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
+                    variation = Variation.objects.get(product=product, variation_category__iexact=key,
+                                                      variation_value__iexact=value)
                     product_variation.append(variation)
                 except:
                     pass
-
 
         is_cart_item_exists = CartItem.objects.filter(product=product, user=current_user).exists()
         if is_cart_item_exists:
@@ -57,9 +59,9 @@ def add_cart(request, product_id):
                 item.save()
         else:
             cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                user = current_user,
+                product=product,
+                quantity=1,
+                user=current_user,
             )
             if len(product_variation) > 0:
                 cart_item.variations.clear()
@@ -75,17 +77,17 @@ def add_cart(request, product_id):
                 value = request.POST[key]
 
                 try:
-                    variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
+                    variation = Variation.objects.get(product=product, variation_category__iexact=key,
+                                                      variation_value__iexact=value)
                     product_variation.append(variation)
                 except:
                     pass
 
-
         try:
-            cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
+            cart = Cart.objects.get(cart_id=_cart_id(request))  # get the cart using the cart_id present in the session
         except Cart.DoesNotExist:
             cart = Cart.objects.create(
-                cart_id = _cart_id(request)
+                cart_id=_cart_id(request)
             )
         cart.save()
 
@@ -120,9 +122,9 @@ def add_cart(request, product_id):
                 item.save()
         else:
             cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                cart = cart,
+                product=product,
+                quantity=1,
+                cart=cart,
             )
             if len(product_variation) > 0:
                 cart_item.variations.clear()
@@ -132,7 +134,6 @@ def add_cart(request, product_id):
 
 
 def remove_cart(request, product_id, cart_item_id):
-
     product = get_object_or_404(Product, id=product_id)
     try:
         if request.user.is_authenticated:
@@ -173,16 +174,16 @@ def cart(request, total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        tax = (2 * total)/100
+        tax = (2 * total) / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
-        pass #just ignore
+        pass  # just ignore
 
     context = {
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
-        'tax'       : tax,
+        'tax': tax,
         'grand_total': grand_total,
     }
     return render(request, 'store/cart.html', context)
@@ -201,16 +202,16 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
-        tax = (2 * total)/100
+        tax = (2 * total) / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
-        pass #just ignore
+        pass  # just ignore
 
     context = {
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
-        'tax'       : tax,
+        'tax': tax,
         'grand_total': grand_total,
     }
     return render(request, 'store/checkout.html', context)
